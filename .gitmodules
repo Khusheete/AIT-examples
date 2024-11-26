@@ -1,0 +1,4 @@
+[submodule "addons/AIT"]
+	path = addons/AIT
+	url = https://github.com/Khusheete/GodotAITooling.git
+	branch = dev

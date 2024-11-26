@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://h85jdx0kfhxl"]
+
+[ext_resource type="Script" path="res://examples/launcher.gd" id="1_6m6gn"]
+[ext_resource type="PackedScene" uid="uid://coo6dqd56if27" path="res://examples/goap/goap_example.tscn" id="2_v54a0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ugk8k"]
+font_size = 32
+
+[node name="Launcher" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+script = ExtResource("1_6m6gn")
+examples = {
+"Goal-Oriented Action Planning": ExtResource("2_v54a0")
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Launch Example:"
+label_settings = SubResource("LabelSettings_ugk8k")
+
+[node name="Margin" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="OptionsContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2

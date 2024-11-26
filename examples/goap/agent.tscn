@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://ckx31tv35qxqq"]
+
+[ext_resource type="Script" path="res://examples/goap/agent.gd" id="1_gw8jw"]
+[ext_resource type="Script" path="res://addons/AIT/src/goal_oriented_action_planning/goap_planner.gd" id="2_awbk7"]
+[ext_resource type="Script" path="res://examples/goap/actions/eat.gd" id="3_6advp"]
+[ext_resource type="Script" path="res://addons/AIT/src/goal_oriented_action_planning/goap_action.gd" id="3_8014j"]
+[ext_resource type="Script" path="res://addons/AIT/src/goal_oriented_action_planning/goap_world.gd" id="3_l5uk1"]
+[ext_resource type="Script" path="res://addons/AIT/src/goal_oriented_action_planning/goap_goal.gd" id="4_5psl0"]
+[ext_resource type="Script" path="res://addons/AIT/src/goal_oriented_action_planning/goap_world_state.gd" id="4_478a6"]
+[ext_resource type="Script" path="res://examples/goap/actions/goto.gd" id="4_k401t"]
+[ext_resource type="Script" path="res://examples/goap/actions/sleep.gd" id="4_vqcp2"]
+[ext_resource type="Script" path="res://examples/goap/world_states/hungry.gd" id="9_np7fm"]
+[ext_resource type="Script" path="res://examples/goap/world_states/location.gd" id="10_bhawq"]
+[ext_resource type="Script" path="res://examples/goap/world_states/sleepy.gd" id="11_3j6oj"]
+
+[node name="Agent" type="Node2D"]
+script = ExtResource("1_gw8jw")
+
+[node name="GOAPPlanner" type="Node" parent="." node_paths=PackedStringArray("local_world")]
+script = ExtResource("2_awbk7")
+local_world = NodePath("../GOAPWorld")
+keep_debug_information = true
+
+[node name="Actions" type="Node" parent="GOAPPlanner"]
+
+[node name="Eat" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("3_6advp")
+preconditions = {
+"Location": 1
+}
+effects = {
+"Hungry": 0
+}
+
+[node name="Sleep" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("4_vqcp2")
+preconditions = {
+"Location": 2
+}
+effects = {
+"Sleepy": 0
+}
+
+[node name="Pwn" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("3_8014j")
+preconditions = {
+"Location": 3
+}
+effects = {
+"Pwning": 0
+}
+
+[node name="GoToMessTable" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("4_k401t")
+effects = {
+"Location": 1
+}
+
+[node name="GoToBed" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("4_k401t")
+target_location = 1
+effects = {
+"Location": 2
+}
+
+[node name="GoToComputer" type="Node" parent="GOAPPlanner/Actions"]
+script = ExtResource("4_k401t")
+target_location = 2
+effects = {
+"Location": 3
+}
+
+[node name="Goals" type="Node" parent="GOAPPlanner"]
+
+[node name="Satiated" type="Node" parent="GOAPPlanner/Goals"]
+script = ExtResource("4_5psl0")
+priority = 2
+desired_world_states = {
+"Hungry": 0
+}
+
+[node name="Rested" type="Node" parent="GOAPPlanner/Goals"]
+script = ExtResource("4_5psl0")
+priority = 1
+desired_world_states = {
+"Sleepy": 0
+}
+
+[node name="Pwning" type="Node" parent="GOAPPlanner/Goals"]
+script = ExtResource("4_5psl0")
+desired_world_states = {
+"Pwning": 0
+}
+
+[node name="GOAPWorld" type="Node" parent="."]
+script = ExtResource("3_l5uk1")
+
+[node name="Hungry" type="Node" parent="GOAPWorld"]
+script = ExtResource("9_np7fm")
+
+[node name="Sleepy" type="Node" parent="GOAPWorld"]
+script = ExtResource("11_3j6oj")
+
+[node name="Location" type="Node" parent="GOAPWorld"]
+script = ExtResource("10_bhawq")
+
+[node name="Pwning" type="Node" parent="GOAPWorld"]
+script = ExtResource("4_478a6")

@@ -1,0 +1,129 @@
+[gd_scene load_steps=6 format=3 uid="uid://coo6dqd56if27"]
+
+[ext_resource type="Script" path="res://examples/goap/goap_example.gd" id="1_s5chc"]
+[ext_resource type="PackedScene" uid="uid://ckx31tv35qxqq" path="res://examples/goap/agent.tscn" id="2_3tgp2"]
+[ext_resource type="Texture2D" uid="uid://nmyqxtpe51om" path="res://assets/sprites/small_laptop_table.png" id="3_vr4t4"]
+[ext_resource type="Texture2D" uid="uid://buedk7wb0s1oh" path="res://assets/sprites/small_fridge.png" id="4_3w668"]
+[ext_resource type="Texture2D" uid="uid://bq80wf25gu27f" path="res://assets/sprites/small_bed.png" id="5_m7xfl"]
+
+[node name="GOAPExample" type="Node2D"]
+script = ExtResource("1_s5chc")
+
+[node name="Eat" type="Marker2D" parent="."]
+position = Vector2(234, 206)
+
+[node name="SmallFridge" type="Sprite2D" parent="Eat"]
+position = Vector2(0, -52)
+scale = Vector2(6, 6)
+texture = ExtResource("4_3w668")
+
+[node name="Sleep" type="Marker2D" parent="."]
+position = Vector2(865, 171)
+
+[node name="SmallBed" type="Sprite2D" parent="Sleep"]
+scale = Vector2(6, 6)
+texture = ExtResource("5_m7xfl")
+
+[node name="Pwn" type="Marker2D" parent="."]
+position = Vector2(577, 510)
+
+[node name="SmallLaptopTable" type="Sprite2D" parent="Pwn"]
+position = Vector2(0, -46)
+scale = Vector2(6, 6)
+texture = ExtResource("3_vr4t4")
+
+[node name="Agent" parent="." node_paths=PackedStringArray("eat_area", "sleep_area", "pwn_area") instance=ExtResource("2_3tgp2")]
+position = Vector2(574, 311)
+eat_area = NodePath("../Eat")
+sleep_area = NodePath("../Sleep")
+pwn_area = NodePath("../Pwn")
+speed = 3.0
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Control" type="Control" parent="UI/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/MarginContainer/Control"]
+layout_mode = 1
+offset_right = 262.0
+offset_bottom = 27.0
+
+[node name="Label" type="Label" parent="UI/MarginContainer/Control/HBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Hunger"
+
+[node name="HungerBar" type="ProgressBar" parent="UI/MarginContainer/Control/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+max_value = 20.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -279.0
+offset_bottom = 27.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="UI/MarginContainer/Control/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Tiredness"
+
+[node name="TierdnessBar" type="ProgressBar" parent="UI/MarginContainer/Control/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+max_value = 20.0
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -25.0
+offset_right = 233.0
+grow_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="AgentDebug" type="RichTextLabel" parent="UI/MarginContainer/Control/PanelContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+
+[node name="Return" type="Button" parent="UI/MarginContainer/Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -158.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Return to Launcher"
+
+[connection signal="pressed" from="UI/MarginContainer/Control/Return" to="." method="_on_return_pressed"]
